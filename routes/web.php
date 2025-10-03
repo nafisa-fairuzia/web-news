@@ -15,7 +15,7 @@ Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '[0-9]+')
     ->name('news.show');
 Route::view('/contact', 'news.contact')->name('contact');
-Route::view('/about', 'news.about')->name('about');
+Route::get('/about', [NewsController::class, 'about'])->name('about');
 
 Route::get('/login', fn() => view('auth.login'))->name('login');
 
@@ -66,4 +66,3 @@ Route::middleware('auth')->group(function () {
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     });
 });
-

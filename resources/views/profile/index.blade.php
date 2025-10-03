@@ -8,26 +8,27 @@
         <div class="col-lg-10">
 
             {{-- HEADER --}}
-            <div class="card border-0 shadow mb-4 overflow-hidden">
+            <div class="card border-0 shadow-lg mb-4 overflow-hidden profile-glass">
                 <div class="position-relative" style="height: 220px; overflow: hidden;">
                     {{-- Background foto user / default --}}
                     <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://picsum.photos/1200/400?grayscale' }}"
                         class="w-100 h-100 object-fit-cover"
                         alt="Background"
-                        style="filter: blur(12px); transform: scale(1.1);">
-
-                    {{-- Overlay hitam transparan --}}
+                        style="filter: blur(14px); transform: scale(1.12);">
                     <div class="overlay position-absolute top-0 start-0 w-100 h-100"
-                        style="background: rgba(0,0,0,0.6);"></div>
+                        style="background: rgba(30,40,80,0.45);backdrop-filter: blur(2px);"></div>
                 </div>
-
-                <div class="card-body text-center text-white position-relative" style="margin-top:-80px;">
-                    <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}"
-                        alt="Avatar"
-                        class="rounded-circle border border-4 border-white shadow-lg bg-white"
-                        width="140" height="140" style="object-fit: cover;">
-                    <h3 class="fw-bold mt-3 text-dark">{{ $user->name }}</h3>
-                    <p class="mb-0 text-muted">Role: <span class="fw-semibold text-capitalize">{{ $user->role }}</span></p>
+                <div class="card-body text-center position-relative" style="margin-top:-80px;">
+                    <div class="d-flex flex-column align-items-center">
+                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}"
+                            alt="Avatar"
+                            class="rounded-circle border border-4 border-white shadow avatar-animate"
+                            width="140" height="140" style="object-fit: cover; background: #fff;">
+                        <h3 class="fw-bold mt-3 mb-1 text-dark">{{ $user->name }}</h3>
+                        <span class="badge px-3 py-2 mb-2 text-capitalize profile-badge-{{ $user->role }}">
+                            <i class="bi bi-person-badge me-1"></i> {{ $user->role }}
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -173,6 +174,91 @@
 
     .object-fit-cover {
         object-fit: cover;
+    }
+
+    .profile-glass {
+        background: rgba(255, 255, 255, 0.85) !important;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+    }
+
+    .avatar-animate {
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .avatar-animate:hover {
+        box-shadow: 0 0 0 6px #179bd7a0, 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+        transform: scale(1.04);
+    }
+
+    .profile-badge-admin {
+        background: linear-gradient(90deg, #253b80, #179bd7);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(23, 155, 215, 0.08);
+    }
+
+    .profile-badge-reporter {
+        background: linear-gradient(90deg, #20c997, #1cc88a);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(32, 201, 151, 0.08);
+    }
+
+    .profile-badge-user {
+        background: linear-gradient(90deg, #858796, #6c757d);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(133, 135, 150, 0.08);
+    }
+
+    .profile-badge-admin i,
+    .profile-badge-reporter i,
+    .profile-badge-user i {
+        color: #fff;
+    }
+
+    .nav-pills .nav-link {
+        color: #253b80;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s;
+        letter-spacing: 0.2px;
+        box-shadow: 0 1px 4px rgba(23, 155, 215, 0.04);
+    }
+
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #253b80, #179bd7);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(23, 155, 215, 0.10);
+    }
+
+    .nav-pills .nav-link:hover {
+        background: rgba(37, 59, 128, 0.10);
+        color: #179bd7;
+        transform: translateY(-2px);
+    }
+
+    .btn-gradient,
+    .btn-outline-primary,
+    .btn-warning {
+        border-radius: 10px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        box-shadow: 0 2px 8px rgba(23, 155, 215, 0.08);
+        transition: all 0.2s;
+    }
+
+    .btn-gradient:hover,
+    .btn-outline-primary:hover,
+    .btn-warning:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(23, 155, 215, 0.13);
     }
 </style>
 @endpush

@@ -1,73 +1,63 @@
-<!-- Sidebar -->
 <div id="sidebar" class="sidebar">
-  <div class="sidebar-header d-flex justify-content-between align-items-center mb-3">
-    <h5 class="mb-4 mt-4 text-white px-3">
-      <i class="bi bi-newspaper me-2 fs-4"></i> <span class="fs-5">PortalBerita</span>
+  <div class="sidebar-header d-flex align-items-center justify-content-between">
+    <h5 class="mb-0 d-flex align-items-center">
+      <img src="{{ asset('assets/img/logo.png') }}"
+        alt="Logo"
+        class="me-2"
+        style="height: 2rem; width: 2rem; object-fit: contain; ">
+      <span class="fs-6 fw-bold">SMKN 08 Jember</span>
     </h5>
-    <button class="btn btn-sm btn-light" id="sidebarClose"><i class="bi bi-x-lg"></i></button>
+    <button class="btn btn-sm btn-light d-lg-none" id="sidebarClose">
+      <i class="bi bi-x-lg"></i>
+    </button>
   </div>
 
-  <ul class="list-unstyled" style="font-size: 16px;">
-
-    <!-- DASHBOARD -->
-    <li class="text-uppercase text-muted small px-3 mt-3 mb-1">Dashboard</li>
+  <ul class="list-unstyled mt-3">
+    <li class="sidebar-section">Dashboard</li>
     <li>
-      <a href="{{ route('home') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('home') ? 'active' : '' }}">
+      <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
         <i class="bi bi-house-door-fill me-2"></i> Beranda
       </a>
     </li>
-
-    <!-- UTAMA -->
-    <li class="text-uppercase text-muted small px-3 mt-3 mb-1">Utama</li>
+    <li class="sidebar-section">Utama</li>
     <li>
-      <a href="{{ route('news.index') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('news.index') ? 'active' : '' }}">
+      <a href="{{ route('news.index') }}" class="{{ request()->routeIs('news.index') ? 'active' : '' }}">
         <i class="fa-solid fa-newspaper me-2"></i> Berita
       </a>
     </li>
+    <li class="sidebar-section">Manajemen</li>
     <li>
-      <a href="{{ route('news.manage') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('news.manage') ? 'active' : '' }}">
+      <a href="{{ route('news.manage') }}" class="{{ request()->routeIs('news.manage') ? 'active' : '' }}">
         <i class="fa-solid fa-folder-open me-2"></i> Kelola Berita
       </a>
     </li>
-
-    <!-- MANAJEMEN (Hanya Admin) -->
     @auth
     @if(auth()->user()->role == 'admin')
-    <li class="text-uppercase text-muted small px-3 mt-3 mb-1">Manajemen</li>
     <li>
-      <a href="{{ route('reporters.index') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('reporters.index') ? 'active' : '' }}">
+      <a href="{{ route('reporters.index') }}" class="{{ request()->routeIs('reporters.index') ? 'active' : '' }}">
         <i class="bi bi-person-workspace me-2"></i> Kelola Reporter
       </a>
     </li>
     @endif
     @endauth
 
-    <!-- PROFIL -->
-    <li class="text-uppercase text-muted small px-3 mt-3 mb-1">Akun</li>
+    <li class="sidebar-section">Akun</li>
     <li>
-      <a href="{{ route('profile.edit') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+      <a href="{{ route('profile.edit') }}" class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">
         <i class="bi bi-person-circle me-2"></i> Profil
       </a>
     </li>
 
-    <!-- LAINNYA -->
     @auth
     @if(auth()->user()->role == 'admin' || auth()->user()->role == 'reporter')
-    <li class="text-uppercase text-muted small px-3 mt-3 mb-1">Lainnya</li>
+    <li class="sidebar-section">Lainnya</li>
     <li>
-      <a href="{{ route('about') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('about') ? 'active' : '' }}">
+      <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
         <i class="bi bi-info-circle-fill me-2"></i> Tentang
       </a>
     </li>
     <li>
-      <a href="{{ route('contact') }}"
-        class="text-white d-block py-2 px-3 {{ request()->routeIs('contact') ? 'active' : '' }}">
+      <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
         <i class="bi bi-envelope-fill me-2"></i> Kontak
       </a>
     </li>
@@ -78,7 +68,6 @@
 </div>
 
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm navbar-animated px-4 py-3">
   <div class="container-fluid">
     @auth
@@ -90,7 +79,7 @@
     @endauth
 
     <a class="navbar-brand fw-bold text-white d-flex align-items-center d-none d-lg-flex">
-      <i class="bi bi-newspaper me-2 fs-4"></i> <span class="fs-5">PortalBerita</span>
+      <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="me-2" style="height: 2rem; width: 2rem; object-fit: contain; vertical-align: middle;"> <span class="fs-5">SMKN 08 Jember</span>
     </a>
 
 

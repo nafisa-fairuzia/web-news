@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
+    public function about()
+    {
+        $admins = User::where('role', 'admin')->get();
+        $reporters = User::where('role', 'reporter')->get();
+        return view('news.about', compact('admins', 'reporters'));
+    }
     public function index(Request $request)
     {
         $query = News::where('status', 'published');
@@ -47,24 +54,28 @@ class NewsController extends Controller
 
     public function manage(Request $request)
     {
-        $query = Auth::user()->role === 'admin'
-            ? News::latest()
-            : News::where('user_id', Auth::id())->latest();
+        $isAdmin = Auth::user()->role === 'admin';
+        $baseQuery = $isAdmin ? News::query() : News::where('user_id', Auth::id());
 
+        // Statistik
+        $stat_total = $baseQuery->count();
+        $stat_published = $baseQuery->where('status', 'published')->count();
+        $stat_draft = $baseQuery->where('status', 'draft')->count();
+        $stat_views = $baseQuery->sum('views');
+
+        // Query untuk tabel (harus fresh agar tidak bentrok dengan statistik)
+        $query = $isAdmin ? News::latest() : News::where('user_id', Auth::id())->latest();
         if ($request->filled('tanggal')) {
             $query->whereDate('created_at', $request->tanggal);
         }
-
         if ($request->filled('kategori')) {
             $query->where('category', $request->kategori);
         }
-
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
         $news = $query->paginate(10)->withQueryString();
-        return view('news.manage', compact('news'));
+        return view('news.manage', compact('news', 'stat_total', 'stat_published', 'stat_draft', 'stat_views'));
     }
 
     public function create()
@@ -94,8 +105,8 @@ class NewsController extends Controller
             'author'   => 'nullable|string|max:255',
         ]);
 
-        $path = $request->hasFile('gambar') 
-            ? $request->file('gambar')->store('news', 'public') 
+        $path = $request->hasFile('gambar')
+            ? $request->file('gambar')->store('news', 'public')
             : null;
 
         News::create([
