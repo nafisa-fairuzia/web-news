@@ -15,10 +15,12 @@ class NewsController extends Controller
         $reporters = User::where('role', 'reporter')->get();
         return view('news.about', compact('admins', 'reporters'));
     }
+
     public function index(Request $request)
     {
         $query = News::where('status', 'published');
 
+        // Pencarian
         if ($request->filled('q')) {
             $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->q . '%')
@@ -26,14 +28,17 @@ class NewsController extends Controller
             });
         }
 
+        // Filter tanggal
         if ($request->filled('tanggal')) {
             $query->whereDate('published_at', $request->tanggal);
         }
 
+        // Filter kategori
         if ($request->filled('kategori')) {
             $query->where('category', $request->kategori);
         }
 
+        // Sorting
         if ($request->sort == 'terlama') {
             $query->orderBy('published_at', 'asc');
         } elseif ($request->sort == 'populer') {
@@ -58,13 +63,14 @@ class NewsController extends Controller
         $baseQuery = $isAdmin ? News::query() : News::where('user_id', Auth::id());
 
         // Statistik
-        $stat_total = $baseQuery->count();
-        $stat_published = $baseQuery->where('status', 'published')->count();
-        $stat_draft = $baseQuery->where('status', 'draft')->count();
-        $stat_views = $baseQuery->sum('views');
+        $stat_total = (clone $baseQuery)->count();
+        $stat_published = (clone $baseQuery)->where('status', 'published')->count();
+        $stat_draft = (clone $baseQuery)->where('status', 'draft')->count();
+        $stat_views = News::sum('views'); // total semua views (umum)
 
-        // Query untuk tabel (harus fresh agar tidak bentrok dengan statistik)
+        // Query untuk tabel
         $query = $isAdmin ? News::latest() : News::where('user_id', Auth::id())->latest();
+
         if ($request->filled('tanggal')) {
             $query->whereDate('created_at', $request->tanggal);
         }
@@ -74,8 +80,16 @@ class NewsController extends Controller
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
+
         $news = $query->paginate(10)->withQueryString();
-        return view('news.manage', compact('news', 'stat_total', 'stat_published', 'stat_draft', 'stat_views'));
+
+        return view('news.manage', compact(
+            'news',
+            'stat_total',
+            'stat_published',
+            'stat_draft',
+            'stat_views'
+        ));
     }
 
     public function create()
@@ -84,7 +98,6 @@ class NewsController extends Controller
             abort(403);
         }
 
-        // default penulis = nama user login
         $defaultAuthor = Auth::user()->name ?? '';
 
         return view('news.create', compact('defaultAuthor'));
@@ -117,8 +130,8 @@ class NewsController extends Controller
             'category'     => $request->kategori,
             'status'       => 'draft',
             'published_at' => $request->tanggal,
-            // kalau field author kosong → pakai username login
             'author'       => $request->author ?: (Auth::user()->name ?? 'Unknown'),
+            'views'        => 0, // default
         ]);
 
         return redirect()->route('news.manage')->with('success', 'Berita berhasil ditambahkan!');
@@ -188,9 +201,14 @@ class NewsController extends Controller
     public function show($id)
     {
         $news = News::findOrFail($id);
-        $news->increment('views');
 
-        $popularNews = News::orderBy('views', 'desc')
+        // Increment view dengan aman (tidak update timestamps)
+        $news->timestamps = false;
+        $news->increment('views');
+        $news->timestamps = true;
+
+        $popularNews = News::where('status', 'published')
+            ->orderBy('views', 'desc')
             ->take(5)
             ->get();
 
@@ -200,6 +218,10 @@ class NewsController extends Controller
     public function dashboard()
     {
         $latestNews = News::where('status', 'published')->latest()->take(8)->get();
-        return view('news.dashboard', compact('latestNews'));
+        $totalViews = News::sum('views');
+        $totalNews = News::count();
+        $totalCategories = News::distinct('category')->whereNotNull('category')->count('category');
+        // Anda bisa tambahkan $totalVisitors jika ingin statistik pengunjung unik
+        return view('news.dashboard', compact('latestNews', 'totalViews', 'totalNews', 'totalCategories'));
     }
 }

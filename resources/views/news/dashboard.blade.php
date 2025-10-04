@@ -95,7 +95,7 @@
     </div>
 
     <div class="col-lg-4">
-      <h5 class="fw-bold mb-3 " style="border-left: 6px solid #007bff; padding-left: 12px;" data-aos="fade-right" >Berita Terkini</h5>
+      <h5 class="fw-bold mb-3 " style="border-left: 6px solid #007bff; padding-left: 12px;" data-aos="fade-right">Berita Terkini</h5>
       <ul class="list-group list-group-flush" data-aos="fade-up"
         data-aos-easing="linear"
         data-aos-duration="500">
@@ -126,7 +126,12 @@
       Berita Populer
     </div>
     <div class="flex-grow-1 mx-2" style="border-bottom: 2px solid #253b80;"></div>
-    <a href="" class="text-muted small fw-bold">View All</a>
+    <a href="{{ route('news.index') }}"
+      class="btn btn-sm d-flex align-items-center gap-1 px-3 py-1 shadow-sm"
+      style="border-radius: 20px; font-weight: 600; border: 2px solid #253b80; color: #253b80; background: transparent;">
+      <span>Lihat Semua</span>
+      <i class="bi bi-arrow-right-circle ms-1"></i>
+    </a>
   </div>
 
   <div class="row g-4 card-grid">
@@ -162,7 +167,12 @@
       Rekomendasi
     </div>
     <div class="flex-grow-1 mx-2" style="border-bottom: 2px solid #253b80;"></div>
-    <a href="{{ route('news.index') }}" class="text-muted small fw-bold">View All</a>
+    <a href="{{ route('news.index') }}"
+      class="btn btn-sm d-flex align-items-center gap-1 px-3 py-1 shadow-sm"
+      style="border-radius: 20px; font-weight: 600; border: 2px solid #253b80; color: #253b80; background: transparent;">
+      <span>Lihat Semua</span>
+      <i class="bi bi-arrow-right-circle ms-1"></i>
+    </a>
   </div>
 
   <div class="row g-4">

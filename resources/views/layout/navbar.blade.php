@@ -1,10 +1,7 @@
 <div id="sidebar" class="sidebar">
   <div class="sidebar-header d-flex align-items-center justify-content-between">
     <h5 class="mb-0 d-flex align-items-center">
-      <img src="{{ asset('assets/img/logo.png') }}"
-        alt="Logo"
-        class="me-2"
-        style="height: 2rem; width: 2rem; object-fit: contain; ">
+      <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="me-2" style="height: 2rem; width: 2rem; object-fit: contain;">
       <span class="fs-6 fw-bold">SMKN 08 Jember</span>
     </h5>
     <button class="btn btn-sm btn-light d-lg-none" id="sidebarClose">
@@ -19,12 +16,14 @@
         <i class="bi bi-house-door-fill me-2"></i> Beranda
       </a>
     </li>
+
     <li class="sidebar-section">Utama</li>
     <li>
       <a href="{{ route('news.index') }}" class="{{ request()->routeIs('news.index') ? 'active' : '' }}">
         <i class="fa-solid fa-newspaper me-2"></i> Berita
       </a>
     </li>
+
     <li class="sidebar-section">Manajemen</li>
     <li>
       <a href="{{ route('news.manage') }}" class="{{ request()->routeIs('news.manage') ? 'active' : '' }}">
@@ -63,11 +62,10 @@
     </li>
     @endif
     @endauth
-
   </ul>
 </div>
 
-
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm navbar-animated px-4 py-3">
   <div class="container-fluid">
     @auth
@@ -79,9 +77,9 @@
     @endauth
 
     <a class="navbar-brand fw-bold text-white d-flex align-items-center d-none d-lg-flex">
-      <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="me-2" style="height: 2rem; width: 2rem; object-fit: contain; vertical-align: middle;"> <span class="fs-5">SMKN 08 Jember</span>
+      <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="me-2" style="height: 2rem; width: 2rem; object-fit: contain; vertical-align: middle;">
+      <span class="fs-5">SMKN 08 Jember</span>
     </a>
-
 
     @guest
     <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTop">
@@ -103,16 +101,16 @@
     <div class="d-flex align-items-center">
       <form class="d-flex me-3" action="{{ route('news.index') }}" method="GET">
         <input class="form-control search-bar" type="search" name="q" placeholder="Cari berita...">
-        <button class="btn btn-light search-btn" type="submit"> <i class="bi bi-search"></i>
-        </button>
+        <button class="btn btn-light search-btn" type="submit"> <i class="bi bi-search"></i></button>
       </form>
 
       @auth
       @if(auth()->user()->role == 'admin' || auth()->user()->role == 'reporter')
+      <!-- Dropdown Profil & Logout -->
       <div class="dropdown">
         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
           href="#" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=0D6EFD&color=fff&size=40' }}"
+          <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=253b80&color=fff&size=40' }}"
             alt="profile"
             class="rounded-circle me-2 shadow-sm border border-white"
             width="40" height="40"
@@ -128,22 +126,48 @@
             <hr class="dropdown-divider">
           </li>
           <li>
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar?')">
-              @csrf
-              <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
-            </form>
+            <a href="#" class="dropdown-item text-danger fw-semibold" data-bs-toggle="modal" data-bs-target="#logoutModal">
+              <i class="bi bi-box-arrow-right me-1"></i> Logout
+            </a>
           </li>
         </ul>
       </div>
-
       @endif
       @else
       <a class="btn btn-custom" href="{{ route('login') }}">
         <i class="bi bi-person-circle me-1"></i> Login
       </a>
       @endauth
-
-
     </div>
   </div>
 </nav>
+
+@auth
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 animate__animated animate__fadeInDown">
+      <div class="modal-body text-center py-5 px-4 bg-white rounded-top-4">
+        <div class="mb-4">
+          <span class="d-inline-flex align-items-center justify-content-center bg-danger bg-gradient text-white rounded-circle shadow"
+            style="width:90px; height:90px; font-size:2.8rem; box-shadow:0 4px 24px rgba(220,53,69,0.18);">
+            <i class="bi bi-box-arrow-right"></i>
+          </span>
+        </div>
+        <h4 class="fw-bold mb-2 text-danger">Keluar dari Akun?</h4>
+        <p class="text-secondary mb-3">Anda akan keluar dari akun <span class="fw-semibold text-dark">{{ auth()->user()->name }}</span>.<br>Pastikan data Anda sudah tersimpan.</p>
+      </div>
+      <div class="modal-footer border-0 d-flex flex-column flex-md-row justify-content-center gap-2 bg-light rounded-bottom-4 py-4">
+        <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i> Batal
+        </button>
+        <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button type="submit" class="btn btn-danger px-4 py-2 fw-semibold shadow-sm">
+            <i class="bi bi-box-arrow-right me-1"></i> Logout
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+@endauth

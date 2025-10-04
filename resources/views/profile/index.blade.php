@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body text-center position-relative" style="margin-top:-80px;">
                     <div class="d-flex flex-column align-items-center">
-                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name) }}"
+                        <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=253b80&color=fff'}}"
                             alt="Avatar"
                             class="rounded-circle border border-4 border-white shadow avatar-animate"
                             width="140" height="140" style="object-fit: cover; background: #fff;">
@@ -104,7 +104,7 @@
                                     <label class="form-label fw-semibold">Pilih Foto</label>
                                     <input type="file" name="avatar" class="form-control" required>
                                 </div>
-                                <button class="btn btn-outline-primary w-100 py-2 fw-bold">Ganti Foto</button>
+                                <button class="btn btn-gradient w-100 py-2 fw-bold">Ganti Foto</button>
                             </form>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                                     <label class="form-label fw-semibold">Konfirmasi Password</label>
                                     <input type="password" name="password_confirmation" class="form-control" required>
                                 </div>
-                                <button class="btn btn-warning w-100 py-2 fw-bold">Ubah Password</button>
+                                <button class="btn btn-gradient w-100 py-2 fw-bold">Ubah Password</button>
                             </form>
                         </div>
                     </div>
@@ -193,28 +193,13 @@
         transform: scale(1.04);
     }
 
-    .profile-badge-admin {
+    .profile-badge-admin,
+    .profile-badge-reporter {
         background: linear-gradient(90deg, #253b80, #179bd7);
         color: #fff;
         font-weight: 600;
         letter-spacing: 0.5px;
         box-shadow: 0 2px 8px rgba(23, 155, 215, 0.08);
-    }
-
-    .profile-badge-reporter {
-        background: linear-gradient(90deg, #20c997, #1cc88a);
-        color: #fff;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(32, 201, 151, 0.08);
-    }
-
-    .profile-badge-user {
-        background: linear-gradient(90deg, #858796, #6c757d);
-        color: #fff;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(133, 135, 150, 0.08);
     }
 
     .profile-badge-admin i,
@@ -244,9 +229,7 @@
         transform: translateY(-2px);
     }
 
-    .btn-gradient,
-    .btn-outline-primary,
-    .btn-warning {
+    .btn-gradient {
         border-radius: 10px;
         font-weight: 600;
         letter-spacing: 0.2px;
@@ -254,12 +237,6 @@
         transition: all 0.2s;
     }
 
-    .btn-gradient:hover,
-    .btn-outline-primary:hover,
-    .btn-warning:hover {
-        transform: translateY(-2px) scale(1.03);
-        box-shadow: 0 4px 16px rgba(23, 155, 215, 0.13);
-    }
 </style>
 @endpush
 @endsection

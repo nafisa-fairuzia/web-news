@@ -5,50 +5,48 @@
 @section('content')
 
 <div class="container mb-0 py-5">
-  <div class="card shadow-sm" style="padding-bottom: 20px">
+  <div class="card border-0 shadow-sm mb-0">
     <div class="card-body">
-      <h5 class="card-title mb-3">Filter Berita</h5>
-      <form method="GET" action="{{ route('news.index') }}">
-        <div class="row g-3 align-items-end">
+      <h5 class="card-title mb-3 fw-semibold text-primary">
+        <i class="bi bi-funnel me-2"></i> Filter Berita
+      </h5>
 
+      <form method="GET" action="{{ route('news.index') }}">
+        <div class="row g-3">
+
+          {{-- Tanggal --}}
           <div class="col-md-3">
-            <label for="tanggal" class="form-label">
-              <i class="bi bi-calendar me-1 text-secondary"></i> Tanggal</label>
+            <label for="tanggal" class="form-label fw-semibold">Tanggal</label>
             <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ request('tanggal') }}">
           </div>
 
+          {{-- Kategori --}}
           <div class="col-md-3">
-            <label for="kategori" class="form-label">
-              <i class="bi bi-tag me-1 text-secondary"></i> Kategori</label>
+            <label for="kategori" class="form-label fw-semibold">Kategori</label>
             <select id="kategori" name="kategori" class="form-select">
-              <option value="">-- Semua Kategori --</option>
-              <option value="TKR" {{ request('kategori')=='TKR' ? 'selected' : '' }}>TKR</option>
-              <option value="TSM" {{ request('kategori')=='TSM' ? 'selected' : '' }}>TSM</option>
-              <option value="TKJ" {{ request('kategori')=='TKJ' ? 'selected' : '' }}>TKJ</option>
-              <option value="RPL" {{ request('kategori')=='RPL' ? 'selected' : '' }}>RPL</option>
-              <option value="DKV" {{ request('kategori')=='DKV' ? 'selected' : '' }}>DKV</option>
-              <option value="ATPH" {{ request('kategori')=='ATPH' ? 'selected' : '' }}>ATPH</option>
-              <option value="APT" {{ request('kategori')=='APT' ? 'selected' : '' }}>APT</option>
-              <option value="Prestasi" {{ request('kategori')=='Prestasi' ? 'selected' : '' }}>Prestasi</option>
-              <option value="Umum" {{ request('kategori')=='Umum' ? 'selected' : '' }}>Umum</option>
+              <option value="">-- Semua --</option>
+              @foreach(['TKR','TSM','TKJ','RPL','DKV','ATPH','APT','Prestasi','Umum'] as $kategori)
+              <option value="{{ $kategori }}" {{ request('kategori') == $kategori ? 'selected' : '' }}>
+                {{ $kategori }}
+              </option>
+              @endforeach
             </select>
-
           </div>
 
+          {{-- Urutkan --}}
           <div class="col-md-3">
-            <label for="sort" class="form-label fw-semibold">
-              <i class="bi bi-sort-down me-1 text-secondary"></i> Urutkan
-            </label>
-            <select id="sort" name="sort" class="form-select shadow-sm">
+            <label for="sort" class="form-label fw-semibold">Urutkan</label>
+            <select id="sort" name="sort" class="form-select">
               <option value="terbaru" {{ request('sort')=='terbaru' ? 'selected' : '' }}>Terbaru</option>
               <option value="terlama" {{ request('sort')=='terlama' ? 'selected' : '' }}>Terlama</option>
               <option value="populer" {{ request('sort')=='populer' ? 'selected' : '' }}>Paling Populer</option>
             </select>
           </div>
 
-          <div class="col-md-3 d-flex gap-2">
-            <button type="submit" class="btn btn-primary w-100">
-              <i class="bi bi-funnel me-1"></i> Filter
+          {{-- Tombol --}}
+          <div class="col-md-3 d-flex gap-2 align-items-end">
+            <button type="submit" class="btn btn-primary w-100" >
+              <i class="bi bi-search me-1"></i> Cari
             </button>
             <a href="{{ route('news.index') }}" class="btn btn-outline-secondary w-100">
               <i class="bi bi-arrow-repeat me-1"></i> Reset

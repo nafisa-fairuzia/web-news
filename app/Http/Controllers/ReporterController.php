@@ -8,11 +8,40 @@ use Illuminate\Support\Facades\Hash;
 
 class ReporterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reporters = User::where('role', 'reporter')->paginate(10);
-        return view('reporters.manage', compact('reporters'));
+        $query = User::where('role', 'reporter');
+
+        // Statistik
+        $totalReporters = User::where('role', 'reporter')->count();
+        $latestReporter = User::where('role', 'reporter')->orderBy('created_at', 'desc')->first();
+        $topReporter = User::where('role', 'reporter')->withCount('news')->orderBy('news_count', 'desc')->first();
+
+        // Filter nama
+        if ($request->name) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        // Filter tanggal daftar
+        if ($request->date) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        // Urutkan
+        if ($request->sort == 'terlama') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($request->sort == 'populer') {
+            $query->withCount('news')->orderBy('news_count', 'desc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $reporters = $query->paginate(10)->withQueryString();
+
+        return view('reporters.manage', compact('reporters', 'totalReporters', 'latestReporter', 'topReporter'));
     }
+
+
 
     public function create()
     {
@@ -31,7 +60,7 @@ class ReporterController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => 'reporter', 
+            'role'     => 'reporter',
         ]);
 
         return redirect()->route('reporters.index')->with('success', 'Reporter berhasil ditambahkan!');
@@ -55,9 +84,9 @@ class ReporterController extends Controller
         $reporter->update([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => $request->password 
-                            ? Hash::make($request->password) 
-                            : $reporter->password,
+            'password' => $request->password
+                ? Hash::make($request->password)
+                : $reporter->password,
         ]);
 
         return redirect()->route('reporters.index')->with('success', 'Reporter berhasil diperbarui!');

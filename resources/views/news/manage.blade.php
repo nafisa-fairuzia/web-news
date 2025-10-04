@@ -122,11 +122,16 @@
                     <td>{{ $item->category }}</td>
                     <td>
                         @if($item->status === 'published')
-                        <span class="badge bg-success px-3 py-2">Published</span>
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill ">
+                            <i class="bi bi-check-circle me-1"></i> Published
+                        </span>
                         @else
-                        <span class="badge bg-secondary px-3 py-2">Draft</span>
+                        <span class="badge bg-warning bg-opacity-10 text-warning border border-warning px-3 py-2 rounded-pill ">
+                            <i class="bi bi-pencil-square me-1"></i> Draft
+                        </span>
                         @endif
                     </td>
+
                     <td>{{ $item->created_at->format('d M Y') }}</td>
                     <td>
                         <div class="d-flex flex-row flex-wrap gap-2 justify-content-center">
@@ -136,11 +141,10 @@
                             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
                                 <i class="bi bi-trash"></i>
                             </button>
-                            @if($item->status==='draft')
-                            <form action="{{ route('news.publish', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin publish berita ini?')">
-                                @csrf
-                                <button class="btn btn-sm btn-outline-success"><i class="bi bi-upload"></i></button>
-                            </form>
+                            @if($item->status === 'draft')
+                            <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#publishModal{{ $item->id }}">
+                                <i class="bi bi-upload"></i>
+                            </button>
                             @endif
                         </div>
                     </td>
@@ -150,27 +154,63 @@
                 {{-- Modal Hapus --}}
                 <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow rounded-3">
-                            <div class="modal-header border-0 bg-light">
-                                <h5 class="modal-title fw-bold text-danger"><i class="bi bi-exclamation-triangle me-2"></i> Hapus Berita</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <div class="modal-content border-0 shadow-lg rounded-4 p-2">
+                            <div class="modal-body text-center py-4 px-3">
+                                <div class="mb-3">
+                                    <span class="d-inline-flex align-items-center justify-content-center bg-danger bg-gradient text-white rounded-circle" style="width:70px;height:70px;font-size:2.5rem;box-shadow:0 2px 12px rgba(220,53,69,0.15);">
+                                        <i class="bi bi-exclamation-octagon"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fw-bold mb-2 text-danger">Konfirmasi Hapus</h5>
+                                <p class="mb-2">Apakah Anda yakin ingin menghapus berita ini?</p>
+                                <p class="fw-semibold text-dark mb-2">"{{ $item->title }}"</p>
+                                <p class="text-muted small mb-0">Tindakan ini <strong>tidak dapat dibatalkan</strong>.</p>
                             </div>
-                            <div class="modal-body text-center">
-                                <p class="mb-2">Apakah Anda yakin ingin menghapus berita:</p>
-                                <p class="fw-semibold">"{{ $item->title }}"</p>
-                                <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
-                            </div>
-                            <div class="modal-footer border-0">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <div class="modal-footer border-0 d-flex flex-column flex-md-row gap-2 justify-content-center bg-light rounded-bottom-4 py-3">
+                                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i> Batal
+                                </button>
                                 <form action="{{ route('news.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                    <button type="submit" class="btn btn-danger px-4">
+                                        <i class="bi bi-trash3 me-1"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="publishModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow-lg rounded-4 p-2">
+                            <div class="modal-body text-center py-4 px-3">
+                                <div class="mb-3">
+                                    <span class="d-inline-flex align-items-center justify-content-center bg-success bg-gradient text-white rounded-circle" style="width:70px;height:70px;font-size:2.5rem;box-shadow:0 2px 12px rgba(25,135,84,0.15);">
+                                        <i class="bi bi-upload"></i>
+                                    </span>
+                                </div>
+                                <h5 class="fw-bold mb-2 text-success">Konfirmasi Publikasi</h5>
+                                <p class="mb-2">Apakah Anda yakin ingin mempublikasikan berita ini?</p>
+                                <p class="fw-semibold text-dark mb-2">"{{ $item->title }}"</p>
+                                <p class="text-muted small mb-0">Berita ini akan tampil di halaman utama setelah dipublikasikan.</p>
+                            </div>
+                            <div class="modal-footer border-0 d-flex flex-column flex-md-row gap-2 justify-content-center bg-light rounded-bottom-4 py-3">
+                                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i> Batal
+                                </button>
+                                <form action="{{ route('news.publish', $item->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success px-4">
+                                        <i class="bi bi-check-circle me-1"></i> Publikasikan
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @empty
                 <tr>
                     <td colspan="6">

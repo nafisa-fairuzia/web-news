@@ -30,6 +30,7 @@
 
     .login-illustration {
       flex: 1;
+      position: relative;
       background: url('https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
       display: flex;
       align-items: center;
@@ -37,6 +38,24 @@
       padding: 2rem;
       color: #fff;
       text-align: center;
+    }
+
+    /* Overlay hitam tipis */
+    .login-illustration::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45); /* hitam tipis */
+      z-index: 1;
+      border-radius: 0 0 0 0; /* optional jika mau rounded */
+    }
+
+    .login-illustration > div {
+      position: relative;
+      z-index: 2; /* supaya konten tampil di atas overlay */
     }
 
     .login-illustration h2 {
@@ -57,7 +76,7 @@
 
     .login-header i {
       font-size: 3rem;
-      color: #1d3557;
+      color: #253b80;
     }
 
     .login-header h3 {
@@ -84,7 +103,7 @@
     }
 
     .btn-login {
-      background: linear-gradient(135deg, #1d3557, #457b9d);
+      background: linear-gradient(135deg, #253b80, #179bd7);
       border: none;
       border-radius: 12px;
       padding: 0.75rem;
@@ -94,7 +113,7 @@
     }
 
     .btn-login:hover {
-      background: linear-gradient(135deg, #457b9d, #1d3557);
+      background: linear-gradient(135deg, #179bd7, #253b80);
       color: #fff;
       transform: translateY(-2px);
     }
@@ -134,15 +153,13 @@
 
 <body>
   <div class="login-wrapper">
-    <!-- Sisi kiri dengan ilustrasi -->
     <div class="login-illustration">
       <div>
         <h2>PortalBerita</h2>
-        <p>Akses berita terkini, terpercaya, dan aktual hanya dengan sekali login.</p>
+        <p>Kelola konten dan laporan berita dengan cepat melalui akun admin atau reporter Anda</p>
       </div>
     </div>
 
-    <!-- Sisi kanan dengan form login -->
     <div class="login-container">
       <div class="login-header">
         <i class="bi bi-person-circle"></i>

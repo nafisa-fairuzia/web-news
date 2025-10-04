@@ -3,7 +3,6 @@
 @section('title', 'Hubungi Kami')
 
 @section('content')
-<!-- Hero Section -->
 <section class="hero-tentang d-flex align-items-center text-white text-center position-relative">
     <div class="container position-relative z-2">
         <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
@@ -16,7 +15,6 @@
     <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
 </section>
 
-<!-- Intro: Siapa Kami -->
 <section class="py-5 position-relative siapa-kami-section animate__animated animate__fadeInUp">
     <div class="siapa-kami-bg"></div>
     <div class="container position-relative">
@@ -34,37 +32,6 @@
     </div>
 </section>
 
-<!-- Visi & Misi -->
-<section class="py-5 animate__animated animate__fadeInUp visi-misi-section">
-    <div class="container position-relative">
-        <h2 class="fw-bold text-gradient mb-5 text-center">Visi & Misi Kami</h2>
-        <div class="row justify-content-center align-items-center g-0 position-relative">
-            <div class="col-md-5 d-flex flex-column align-items-center">
-                <div class="visi-card p-4 h-100 d-flex flex-column align-items-center text-center position-relative">
-                    <div class="visi-icon-circle mb-3"><i class="bi bi-eye-fill"></i></div>
-                    <h4 class="fw-bold mb-2">Visi</h4>
-                    <p class="text-muted mb-0">
-                        Menjadi portal berita terdepan yang menginspirasi, mendidik, dan membangun literasi masyarakat.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-5 d-flex flex-column align-items-center">
-                <div class="misi-card p-4 h-100 d-flex flex-column align-items-center text-center position-relative">
-                    <div class="misi-icon-circle mb-3"><i class="bi bi-flag-fill"></i></div>
-                    <h4 class="fw-bold mb-2">Misi</h4>
-                    <ul class="list-unstyled text-muted fs-6 mb-0 text-start mx-auto misi-list">
-                        <li><span class="misi-bullet">&#10003;</span> Menyajikan berita faktual & berimbang</li>
-                        <li><span class="misi-bullet">&#10003;</span> Memberikan perspektif dari berbagai bidang</li>
-                        <li><span class="misi-bullet">&#10003;</span> Meningkatkan literasi digital masyarakat</li>
-                        <li><span class="misi-bullet">&#10003;</span> Menjunjung tinggi etika jurnalistik</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Nilai Kami -->
 <section class="py-5 bg-light animate__animated animate__fadeInUp">
     <div class="container">
         <h2 class="fw-bold text-gradient mb-5 text-center">Nilai yang Kami Pegang</h2>
@@ -88,7 +55,6 @@
     </div>
 </section>
 
-<!-- Tim Redaksi Dinamis -->
 <section class="py-5 animate__animated animate__fadeInUp">
     <div class="container">
         <h2 class="fw-bold text-center text-gradient mb-5">Tim Redaksi</h2>
@@ -99,8 +65,9 @@
                     <img src="{{ $admin->avatar ? asset('storage/'.$admin->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($admin->name).'&background=253b80&color=fff' }}" class="rounded-circle" alt="{{ $admin->name }}">
                 </div>
                 <h5 class="fw-bold mb-1 text-center">{{ $admin->name }}</h5>
-                <span class="badge role-badge mb-1" style="background: linear-gradient(90deg,#253b80,#179bd7)">Admin</span>
-                <p class="text-muted small mb-0 text-center">{{ $admin->email }}</p>
+                <span class="badge px-3 py-2 mb-2 text-capitalize " style="background: linear-gradient(90deg,#253b80,#179bd7)">
+                    <i class="bi bi-person-badge me-1"></i> Admin
+                </span>
             </div>
             @endforeach
 
@@ -110,8 +77,9 @@
                     <img src="{{ $reporter->avatar ? asset('storage/'.$reporter->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($reporter->name).'&background=253b80&color=fff' }}" class="rounded-circle" alt="{{ $reporter->name }}">
                 </div>
                 <h5 class="fw-bold mb-1 text-center">{{ $reporter->name }}</h5>
-                <span class="badge role-badge mb-1" style="background: linear-gradient(90deg,#253b80,#179bd7)">Reporter</span>
-                <p class="text-muted small mb-0 text-center">{{ $reporter->email }}</p>
+                <span class="badge px-3 py-2 mb-2 text-capitalize " style="background: linear-gradient(90deg,#253b80,#179bd7)">
+                    <i class="bi bi-person-badge me-1"></i> Reporter
+                </span>
             </div>
             @endforeach
         </div>
@@ -140,8 +108,6 @@
         left: 0;
     }
 
-
-    /* Siapa Kami Section */
     .siapa-kami-section {
         background: none;
         overflow: visible;
@@ -178,78 +144,6 @@
         position: relative;
         border: 6px solid #fff;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
-    }
-
-    .img-accent-circle {
-        position: absolute;
-        bottom: -18px;
-        right: -18px;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #179bd7 60%, #253b80 100%);
-        border-radius: 50%;
-        z-index: 1;
-        opacity: 0.7;
-        box-shadow: 0 2px 12px rgba(23, 155, 215, 0.13);
-    }
-
-    /* Visi Misi Section */
-    .visi-misi-section {
-        background: linear-gradient(90deg, #f8fafc 60%, #e3f2fd 100%);
-        border-radius: 2rem;
-        box-shadow: 0 4px 24px 0 rgba(23, 155, 215, 0.07);
-    }
-
-    .visi-card,
-    .misi-card {
-        background: #fff;
-        border-radius: 1.5rem;
-        box-shadow: 0 2px 12px rgba(23, 155, 215, 0.07);
-        min-height: 260px;
-    }
-
-    .visi-icon-circle {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #253b80 60%, #179bd7 100%);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        box-shadow: 0 2px 8px rgba(23, 155, 215, 0.10);
-    }
-
-    .misi-icon-circle {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ffc107 60%, #ffecb3 100%);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        box-shadow: 0 2px 8px rgba(23, 155, 215, 0.10);
-    }
-
-    .visi-misi-connector-horizontal {
-        width: 100px;
-        height: 6px;
-        background: linear-gradient(90deg, #253b80 0%, #179bd7 100%);
-        border-radius: 3px;
-        margin: 0 auto;
-    }
-
-    .misi-list {
-        font-size: 1.08rem;
-    }
-
-    .misi-bullet {
-        color: #20c997;
-        font-size: 1.2rem;
-        margin-right: 0.5rem;
     }
 
     .nilai-row {
