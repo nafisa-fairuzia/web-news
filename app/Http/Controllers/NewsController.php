@@ -20,7 +20,6 @@ class NewsController extends Controller
     {
         $query = News::where('status', 'published');
 
-        // Pencarian
         if ($request->filled('q')) {
             $query->where(function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->q . '%')
@@ -28,17 +27,14 @@ class NewsController extends Controller
             });
         }
 
-        // Filter tanggal
         if ($request->filled('tanggal')) {
             $query->whereDate('published_at', $request->tanggal);
         }
 
-        // Filter kategori
         if ($request->filled('kategori')) {
             $query->where('category', $request->kategori);
         }
 
-        // Sorting
         if ($request->sort == 'terlama') {
             $query->orderBy('published_at', 'asc');
         } elseif ($request->sort == 'populer') {
@@ -62,13 +58,11 @@ class NewsController extends Controller
         $isAdmin = Auth::user()->role === 'admin';
         $baseQuery = $isAdmin ? News::query() : News::where('user_id', Auth::id());
 
-        // Statistik
         $stat_total = (clone $baseQuery)->count();
         $stat_published = (clone $baseQuery)->where('status', 'published')->count();
         $stat_draft = (clone $baseQuery)->where('status', 'draft')->count();
-        $stat_views = News::sum('views'); // total semua views (umum)
+        $stat_views = News::sum('views'); 
 
-        // Query untuk tabel
         $query = $isAdmin ? News::latest() : News::where('user_id', Auth::id())->latest();
 
         if ($request->filled('tanggal')) {
@@ -131,7 +125,7 @@ class NewsController extends Controller
             'status'       => 'draft',
             'published_at' => $request->tanggal,
             'author'       => $request->author ?: (Auth::user()->name ?? 'Unknown'),
-            'views'        => 0, // default
+            'views'        => 0,
         ]);
 
         return redirect()->route('news.manage')->with('success', 'Berita berhasil ditambahkan!');
@@ -202,7 +196,6 @@ class NewsController extends Controller
     {
         $news = News::findOrFail($id);
 
-        // Increment view dengan aman (tidak update timestamps)
         $news->timestamps = false;
         $news->increment('views');
         $news->timestamps = true;
@@ -221,7 +214,6 @@ class NewsController extends Controller
         $totalViews = News::sum('views');
         $totalNews = News::count();
         $totalCategories = News::distinct('category')->whereNotNull('category')->count('category');
-        // Anda bisa tambahkan $totalVisitors jika ingin statistik pengunjung unik
         return view('news.dashboard', compact('latestNews', 'totalViews', 'totalNews', 'totalCategories'));
     }
 }

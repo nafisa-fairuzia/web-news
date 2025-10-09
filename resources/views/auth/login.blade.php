@@ -40,7 +40,6 @@
       text-align: center;
     }
 
-    /* Overlay hitam tipis */
     .login-illustration::before {
       content: '';
       position: absolute;
@@ -48,14 +47,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.45); /* hitam tipis */
+      background: rgba(0, 0, 0, 0.45);
       z-index: 1;
-      border-radius: 0 0 0 0; /* optional jika mau rounded */
+      border-radius: 0 0 0 0;
     }
 
-    .login-illustration > div {
+    .login-illustration>div {
       position: relative;
-      z-index: 2; /* supaya konten tampil di atas overlay */
+      z-index: 2;
     }
 
     .login-illustration h2 {
@@ -134,7 +133,6 @@
       color: #1d3557;
     }
 
-    /* Responsif */
     @media (max-width: 768px) {
       .login-wrapper {
         flex-direction: column;
@@ -174,9 +172,12 @@
           <input type="email" name="email" class="form-control" id="email" placeholder="nama@email.com" required />
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
           <label for="password" class="form-label">Kata Sandi</label>
           <input type="password" name="password" class="form-control" id="password" placeholder="••••••••" required />
+          <span class="position-absolute top-50 end-0 me-3 mt-1" style="cursor:pointer;" id="togglePassword">
+            <i class="bi bi-eye"></i>
+          </span>
         </div>
 
         <button type="submit" class="btn btn-login w-100">Masuk</button>
@@ -188,5 +189,15 @@
     </div>
   </div>
 </body>
+<script>
+  const passwordInput = document.getElementById('password');
+  const togglePassword = document.getElementById('togglePassword');
+  togglePassword.addEventListener('click', function() {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.querySelector('i').classList.toggle('bi-eye');
+    this.querySelector('i').classList.toggle('bi-eye-slash');
+  });
+</script>
 
 </html>

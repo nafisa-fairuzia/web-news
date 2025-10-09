@@ -98,7 +98,12 @@
       </ul>
     </div>
 
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center ">
+      @auth
+      @if(auth()->user()->role == 'admin' || auth()->user()->role == 'reporter')
+      <span id="newsClock" class="text-white fw-semibold me-3 d-none d-lg-inline" style="letter-spacing:1px; min-width:110px; opacity: 70%"></span>
+      @endif
+      @endauth
       <form class="d-flex me-3" action="{{ route('news.index') }}" method="GET">
         <input class="form-control search-bar" type="search" name="q" placeholder="Cari berita...">
         <button class="btn btn-light search-btn" type="submit"> <i class="bi bi-search"></i></button>
@@ -106,7 +111,6 @@
 
       @auth
       @if(auth()->user()->role == 'admin' || auth()->user()->role == 'reporter')
-      <!-- Dropdown Profil & Logout -->
       <div class="dropdown">
         <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
           href="#" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">

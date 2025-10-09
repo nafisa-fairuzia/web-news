@@ -12,22 +12,18 @@ class ReporterController extends Controller
     {
         $query = User::where('role', 'reporter');
 
-        // Statistik
         $totalReporters = User::where('role', 'reporter')->count();
         $latestReporter = User::where('role', 'reporter')->orderBy('created_at', 'desc')->first();
         $topReporter = User::where('role', 'reporter')->withCount('news')->orderBy('news_count', 'desc')->first();
 
-        // Filter nama
         if ($request->name) {
             $query->where('name', 'like', '%' . $request->name . '%');
         }
 
-        // Filter tanggal daftar
         if ($request->date) {
             $query->whereDate('created_at', $request->date);
         }
 
-        // Urutkan
         if ($request->sort == 'terlama') {
             $query->orderBy('created_at', 'asc');
         } elseif ($request->sort == 'populer') {

@@ -243,7 +243,5 @@
   </div>
 </div>
 
-<script>
-  AOS.init();
-</script>
+
 @endsection

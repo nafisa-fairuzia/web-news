@@ -31,3 +31,20 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       }
     });
+
+    function updateNewsClock() {
+  const el = document.getElementById('newsClock');
+  if (!el) return;
+  const now = new Date();
+  let h = now.getHours();
+  let m = now.getMinutes();
+  let s = now.getSeconds();
+  let ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  h = h ? h : 12;
+  m = m < 10 ? '0' + m : m;
+  s = s < 10 ? '0' + s : s;
+  el.textContent = `${h}:${m}:${s} ${ampm}`;
+}
+setInterval(updateNewsClock, 1000);
+document.addEventListener('DOMContentLoaded', updateNewsClock);

@@ -4,6 +4,9 @@ body {
     background-color: #f8f9fa;
 }
 
+h5, .breaking-news {
+    font-weight: 600;
+}
 
 .navbar {
     background: #253b80 !important;
@@ -27,10 +30,10 @@ body {
     max-width: 100%;
     padding: 0 50px;
 }
+
 .breaking-news {
     background: #179bd7;
-    color: white;
-    font-weight: 600;
+    color: #fff;
     padding: 8px 0;
     overflow: hidden;
     position: relative;
@@ -42,25 +45,21 @@ body {
     animation: scroll-left 15s linear infinite;
 }
 
-h5 {
-    font-weight: 600;
+@keyframes scroll-left {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
 }
 
 .hero-cover {
     position: relative;
     height: 600px;
-    background: url("/assets/img/gambar1.png") no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed; 
+    background: url("/assets/img/gambar1.png") no-repeat center center/cover fixed;
 }
 
 .hero-cover::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -68,9 +67,10 @@ h5 {
     position: relative;
     z-index: 1;
 }
-.hero-card {
-    overflow: hidden;
+
+.hero-card, .newsletter {
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .hero-card img {
@@ -80,10 +80,12 @@ h5 {
 .hero-card:hover img {
     transform: scale(1.05);
 }
+
 .card-grid img {
     height: 200px;
     object-fit: cover;
 }
+
 .berita-3 {
     height: 350px;
 }
@@ -91,26 +93,21 @@ h5 {
 .yt-slider .card {
     margin-left: 20px;
 }
-.slick-prev:before,
-.slick-next:before {
+
+.slick-prev:before, .slick-next:before {
     color: #253b80 !important;
     font-size: 30px !important;
 }
-.text-truncate-1 {
+
+.text-truncate-1, .text-truncate-2 {
     display: -webkit-box;
-    -webkit-line-clamp: 1; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.text-truncate-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2; 
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.text-truncate-1 { -webkit-line-clamp: 1; }
+.text-truncate-2 { -webkit-line-clamp: 2; }
 
 .news-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -120,6 +117,7 @@ h5 {
     transform: translateY(-5px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
+
 .opini-item img {
     width: 100px;
     height: 100px;
@@ -129,8 +127,7 @@ h5 {
 
 .newsletter {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-    border-radius: 12px;
+    color: #fff;
 }
 
 footer {
@@ -138,8 +135,7 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .container, .container-fluid {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    .container, .container-fluid {
+        padding: 0 10px;
+    }
 }

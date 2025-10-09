@@ -8,9 +8,7 @@
         <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
             Tentang <span class="text-gradient">Portal Berita</span>
         </h1>
-        <p class="lead animate__animated animate__fadeInUp">
-            Sumber informasi modern yang cepat, akurat, dan inspiratif
-        </p>
+       
     </div>
     <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
 </section>

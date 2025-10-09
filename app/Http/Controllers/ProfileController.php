@@ -10,7 +10,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $user = Auth::user(); // ✅ ini Eloquent Model
+        $user = Auth::user(); 
         return view('profile.index', compact('user'));
     }
 
@@ -26,7 +26,7 @@ class ProfileController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
 
-        $user->save(); // ✅ sekarang bisa
+        $user->save(); 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
@@ -42,7 +42,7 @@ class ProfileController extends Controller
         $path = $request->file('avatar')->store('avatars', 'public');
         $user->avatar = $path;
         
-        $user->save(); // ✅ juga bisa
+        $user->save(); 
         return back()->with('success', 'Foto profil berhasil diubah.');
     }
 
@@ -60,7 +60,7 @@ class ProfileController extends Controller
             return back()->withErrors(['current_password' => 'Password lama salah.']);
         }
 
-        $user->password = $request->password; // otomatis di-hash via mutator
+        $user->password = $request->password; 
         $user->save();
 
         return back()->with('success', 'Password berhasil diubah.');
